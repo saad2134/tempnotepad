@@ -95,8 +95,11 @@ Feel free to open issues or submit pull requests!
 `#client-side-notes` `#temporary-note-app` `#no-database-notes` `#self-hosted-notepad` `#simple-note-taker`  
 `#quick-note-app` `#html-only-notepad` `#personal-note-tool` `#javascript-notepad` `#private-notes-app`
 
+---
 
+## ✍️ Endnote
 
+<p align="center">⭐ Star this repo if you found it helpful! Thanks for reading.</p>
 
 
 ---
