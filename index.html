@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -49,6 +50,15 @@
       Note Taking App
     </h1>
     <div class="flex items-center gap-4">
+      <button id="downloadAllBtn" class="text-white bg-royal-red-600 hover:bg-royal-red-700 rounded-md px-3 py-1.5 flex items-center gap-2 transition-colors"
+        aria-label="Download all notes">
+        <i class="fas fa-download"></i> Download All
+      </button>
+      <label class="text-white bg-royal-red-600 hover:bg-royal-red-700 rounded-md px-3 py-1.5 flex items-center gap-2 transition-colors cursor-pointer"
+        aria-label="Import notes">
+        <i class="fas fa-upload"></i> Import
+        <input type="file" id="importNotesBtn" accept=".txt" multiple class="hidden">
+      </label>
       <button id="themeToggle" class="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-700 theme-transition"
         aria-label="Toggle theme">
         <i id="themeIcon" class="fas fa-sun text-yellow-500 dark:text-yellow-300"></i>
@@ -87,6 +97,11 @@
           disabled aria-label="Delete note">
           <i class="fas fa-trash-alt"></i> Delete
         </button>
+        <button id="downloadNoteBtn"
+          class="bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 text-zinc-700 dark:text-zinc-200 rounded-md px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors theme-transition"
+          disabled aria-label="Download note">
+          <i class="fas fa-download"></i> Download
+        </button>
         <button id="saveNoteBtn"
           class="bg-royal-red-600 hover:bg-royal-red-700 text-white rounded-md px-4 py-2 flex items-center gap-2 transition-colors focus:ring-2 focus:ring-royal-red-500 focus:ring-opacity-50"
           aria-label="Save note">
@@ -112,6 +127,9 @@
     const addNoteBtn = document.getElementById('addNoteBtn');
     const saveNoteBtn = document.getElementById('saveNoteBtn');
     const deleteNoteBtn = document.getElementById('deleteNoteBtn');
+    const downloadNoteBtn = document.getElementById('downloadNoteBtn');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+    const importNotesBtn = document.getElementById('importNotesBtn');
     const notesList = document.getElementById('notesList');
     const noteTitle = document.getElementById('noteTitle');
     const noteContent = document.getElementById('noteContent');
@@ -270,6 +288,11 @@
           'bg-zinc-200 dark:bg-zinc-700',
           'bg-royal-red-100 dark:bg-royal-red-900 dark:bg-opacity-20 text-royal-red-700 dark:text-royal-red-400'
         );
+        downloadNoteBtn.disabled = false;
+        downloadNoteBtn.className = downloadNoteBtn.className.replace(
+          'bg-zinc-200 dark:bg-zinc-700',
+          'bg-blue-100 dark:bg-blue-900 dark:bg-opacity-20 text-blue-700 dark:text-blue-400'
+        );
       }
       renderNotesList();
     }
@@ -281,6 +304,11 @@
       deleteNoteBtn.disabled = true;
       deleteNoteBtn.className = deleteNoteBtn.className.replace(
         'bg-royal-red-100 dark:bg-royal-red-900 dark:bg-opacity-20 text-royal-red-700 dark:text-royal-red-400',
+        'bg-zinc-200 dark:bg-zinc-700'
+      );
+      downloadNoteBtn.disabled = true;
+      downloadNoteBtn.className = downloadNoteBtn.className.replace(
+        'bg-blue-100 dark:bg-blue-900 dark:bg-opacity-20 text-blue-700 dark:text-blue-400',
         'bg-zinc-200 dark:bg-zinc-700'
       );
       renderNotesList();
@@ -396,6 +424,86 @@
     });
 
     deleteNoteBtn.addEventListener('click', handleDeleteNote);
+
+    downloadNoteBtn.addEventListener('click', function() {
+      if (!selectedNoteId) return;
+      const note = notes.find((n) => n.id === selectedNoteId);
+      if (!note) return;
+
+      const title = note.title || 'Untitled Note';
+      const filename = `${title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note'}.txt`;
+      const blob = new Blob([note.content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showNotification('Note downloaded successfully!');
+    });
+
+    downloadAllBtn.addEventListener('click', function() {
+      if (notes.length === 0) {
+        showNotification('No notes to download.');
+        return;
+      }
+
+      const zip = new JSZip();
+
+      notes.forEach((note) => {
+        const title = note.title || 'Untitled Note';
+        const filename = `${title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note'}.txt`;
+        zip.file(filename, note.content);
+      });
+
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
+        const url = URL.createObjectURL(content);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'notes_backup.zip';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showNotification('All notes downloaded as ZIP!');
+      });
+    });
+
+    importNotesBtn.addEventListener('change', function(e) {
+      const files = e.target.files;
+      if (files.length === 0) return;
+
+      let importedCount = 0;
+
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const content = e.target.result;
+          const title = file.name.replace('.txt', '');
+
+          const newNote = {
+            id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+            title: title,
+            content: content,
+            updatedAt: new Date().toISOString(),
+          };
+
+          notes.unshift(newNote);
+          importedCount++;
+
+          if (importedCount === files.length) {
+            saveNotesToStorage();
+            renderNotesList();
+            showNotification(`Imported ${importedCount} note(s)!`);
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      e.target.value = '';
+    });
 
     themeToggle.addEventListener('click', toggleTheme);
 

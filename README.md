@@ -14,6 +14,9 @@
 - ✅ **Instant startup** — blazing-fast loading and usage.
 - ✅ **Persistent notes** using Local Storage.
 - ✅ **Portable** — host it anywhere or use it locally.
+- ✅ **Download individual notes** — save any note as a `.txt` file.
+- ✅ **Download all notes** — export all notes as a single `.zip` file.
+- ✅ **Import notes** — import one or multiple `.txt` files.
 
 
 
@@ -75,7 +78,19 @@ You can modify the `index.html` file to:
 - Add themes (dark mode, fonts)
 - Include markdown support
 - Use auto-save timers
-- Add export/import functionality
+
+## 💾 Import & Export
+
+### Exporting Notes
+
+- **Download Single Note**: Click the "Download" button below any note to save it as a `.txt` file with the note title as the filename.
+- **Download All Notes**: Click "Download All" in the navbar to export all notes as a single `.zip` file, with each note saved as a separate `.txt` file.
+
+### Importing Notes
+
+- Click the "Import" button in the navbar to select one or multiple `.txt` files.
+- Each file will be imported as a new note, using the filename as the note title.
+- Imported notes will appear at the top of your notes list.
 
 
 
