@@ -1,0 +1,5 @@
+﻿# robots.txt for Temp Notepad
+User-agent: *
+Allow: /
+
+Sitemap: https://saad2134.github.io/tempnotepad/sitemap.xml

@@ -1,13 +1,81 @@
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2BMZ70BG1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-Z2BMZ70BG1');
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Note Taking App</title>
-  <link rel="icon" href="favicon.ico">
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>Temp Notepad ✦ Free Private Browser-Based Note Taking App</title>
+  <meta name="title" content="Temp Notepad ✦ Free Private Browser-Based Note Taking App" />
+  <meta name="description" content="A fast, lightweight, and private browser-based note taking application with local storage, instant text import/export, dark mode, and zero tracking." />
+  <meta name="keywords" content="Temp Notepad, note taking app, private notes, local storage notepad, offline notepad, browser notepad, text editor, quick notes, temporary notes, client-side notepad" />
+  <meta name="author" content="Saad (@saad2134)" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="canonical" href="https://saad2134.github.io/tempnotepad/" />
+
+  <!-- Mobile & PWA Theme -->
+  <meta name="theme-color" content="#18181b" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="icon.png" />
+
+  <!-- Open Graph / Facebook / LinkedIn / Discord -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://saad2134.github.io/tempnotepad/" />
+  <meta property="og:title" content="Temp Notepad ✦ Free Private Browser-Based Note Taking App" />
+  <meta property="og:description" content="Fast, lightweight, client-side note-taking app. No signups, no servers, full offline local storage support." />
+  <meta property="og:image" content="https://saad2134.github.io/tempnotepad/icon.png" />
+  <meta property="og:site_name" content="Temp Notepad" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:url" content="https://saad2134.github.io/tempnotepad/" />
+  <meta name="twitter:title" content="Temp Notepad ✦ Free Private Browser-Based Note Taking App" />
+  <meta name="twitter:description" content="Fast, lightweight, client-side note-taking app. No signups, no servers, full offline local storage support." />
+  <meta name="twitter:image" content="https://saad2134.github.io/tempnotepad/icon.png" />
+  <meta name="twitter:creator" content="@saad2134" />
+
+  <!-- Structured Data / JSON-LD (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Temp Notepad",
+    "url": "https://saad2134.github.io/tempnotepad/",
+    "description": "A fast, lightweight, and private browser-based note taking application with local storage, instant import/export, and dark mode.",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": "All",
+    "genre": ["Productivity", "Utilities", "Text Editor"],
+    "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+    "author": {
+      "@type": "Person",
+      "name": "Saad",
+      "url": "https://github.com/saad2134"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
     tailwind.config = {
@@ -113,16 +181,47 @@
   </main>
 
   <footer
-    class="bg-white dark:bg-zinc-800 shadow-md p-4 text-center text-zinc-500 dark:text-zinc-400 text-sm theme-transition">
-    &copy; 2022 Note Taking App. Made by
-    <a href="https://github.com/saad2134" class=" text-royal-red-600 hover:text-royal-red-700 theme-transition"
-      target="_blank" rel="noopener noreferrer">Saad</a>.
-    All rights reserved.
-    <br>
-    <a class=" text-gray-500 theme-transition">
-      All data is saved in browser local storage. Clearing history or using private mode will lead to loss of data.</a>
-  </footer>
+    class="bg-white dark:bg-zinc-800 shadow-md p-6 text-center text-zinc-500 dark:text-zinc-400 text-sm theme-transition flex flex-col items-center gap-3">
+    
+    <!-- Creator Support / Sponsorship -->
+    <div class="flex items-center justify-center gap-3 flex-wrap my-1">
+      <a href="https://github.com/sponsors/saad2134" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-pink-50 dark:bg-pink-950/30 text-pink-600 dark:text-pink-400 border border-pink-200 dark:border-pink-800 hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors" title="Sponsor Saad on GitHub">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <span>Sponsor on GitHub</span>
+      </a>
+      <a href="https://buymeacoffee.com/saad1inc" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors" title="Support via Buy Me a Coffee">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+          <line x1="6" y1="1" x2="6" y2="4"></line>
+          <line x1="10" y1="1" x2="10" y2="4"></line>
+          <line x1="14" y1="1" x2="14" y2="4"></line>
+        </svg>
+        <span>Buy Me a Coffee</span>
+      </a>
+      <a href="https://nowpayments.io/donation/saad1inc" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-teal-50 dark:bg-teal-950/30 text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800 hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-colors" title="Donate Crypto via NOWPayments">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+          <path d="M12 6v2m0 8v2"></path>
+        </svg>
+        <span>NOWPayments (Crypto)</span>
+      </a>
+    </div>
 
+    <div>
+      &copy; 2024 <a href="https://github.com/saad2134/tempnotepad" target="_blank" rel="noopener noreferrer" class="font-semibold text-zinc-700 dark:text-zinc-300 hover:text-royal-red-600 dark:hover:text-royal-red-400 transition-colors">Note Taking App</a> <span class="font-mono text-xs px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-600">v1.0</span>. Made by
+      <a href="https://github.com/saad2134" class="text-royal-red-600 hover:text-royal-red-700 font-semibold theme-transition"
+        target="_blank" rel="noopener noreferrer">Saad (@saad2134)</a>.
+      All rights reserved.
+    </div>
+    
+    <div class="text-xs text-zinc-400 dark:text-zinc-500">
+      All data is saved in browser local storage. Clearing history or using private mode will lead to loss of data.
+    </div>
+  </footer>
 
   <script>
     const addNoteBtn = document.getElementById('addNoteBtn');
@@ -171,15 +270,6 @@
       } else {
         setTheme('light');
       }
-
-      // Show feedback about selected theme
-      const themeNames = {
-        'light': 'Light Mode',
-        'dark': 'Dark Mode',
-        'system': 'System Theme'
-      };
-
-      //showNotification(`Switched to ${themeNames[currentTheme]}`);
     }
 
     // Notification function
@@ -370,7 +460,7 @@
       buttonContainer.className = 'flex justify-end gap-3';
 
       const cancelBtn = document.createElement('button');
-      cancelBtn.className = 'px-4 py-2 bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-white rounded-md  hover:bg-zinc-300 dark:hover:bg-zinc-600 theme-transition';
+      cancelBtn.className = 'px-4 py-2 bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-white rounded-md hover:bg-zinc-300 dark:hover:bg-zinc-600 theme-transition';
       cancelBtn.textContent = 'Cancel';
 
       const confirmBtn = document.createElement('button');
@@ -432,7 +522,7 @@
       if (!note) return;
 
       const title = note.title || 'Untitled Note';
-      const filename = `${title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note'}.txt`;
+      const filename = ${title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note'}.txt;
       const blob = new Blob([note.content], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -455,7 +545,7 @@
 
       notes.forEach((note) => {
         const title = note.title || 'Untitled Note';
-        const filename = `${title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note'}.txt`;
+        const filename = ${title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note'}.txt;
         zip.file(filename, note.content);
       });
 
@@ -497,7 +587,7 @@
           if (importedCount === files.length) {
             saveNotesToStorage();
             renderNotesList();
-            showNotification(`Imported ${importedCount} note(s)!`);
+            showNotification(Imported  note(s)!);
           }
         };
         reader.readAsText(file);
