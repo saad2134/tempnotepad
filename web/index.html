@@ -2,6 +2,21 @@
 <html lang="en">
 
 <head>
+  <!-- Early theme application to avoid white flash -->
+  <script>
+    (function () {
+      try {
+        const saved = localStorage.getItem('theme') || 'system';
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (saved === 'system' && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2BMZ70BG1"></script>
   <script>
@@ -36,16 +51,20 @@
   <meta property="og:url" content="https://saad2134.github.io/tempnotepad/" />
   <meta property="og:title" content="Temp Notepad ✦ Free Private Browser-Based Note Taking App" />
   <meta property="og:description" content="Fast, lightweight, client-side note-taking app. No signups, no servers, full offline local storage support." />
-  <meta property="og:image" content="https://saad2134.github.io/tempnotepad/icon.png" />
+  <meta property="og:image" content="https://saad2134.github.io/tempnotepad/social-preview.png" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="720" />
+  <meta property="og:image:alt" content="Temp Notepad Social Preview Banner" />
   <meta property="og:site_name" content="Temp Notepad" />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://saad2134.github.io/tempnotepad/" />
   <meta name="twitter:title" content="Temp Notepad ✦ Free Private Browser-Based Note Taking App" />
   <meta name="twitter:description" content="Fast, lightweight, client-side note-taking app. No signups, no servers, full offline local storage support." />
-  <meta name="twitter:image" content="https://saad2134.github.io/tempnotepad/icon.png" />
+  <meta name="twitter:image" content="https://saad2134.github.io/tempnotepad/social-preview.png" />
+  <meta name="twitter:image:alt" content="Temp Notepad Social Preview Banner" />
   <meta name="twitter:creator" content="@saad2134" />
 
   <!-- Structured Data / JSON-LD (Schema.org) -->
@@ -103,76 +122,76 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      transition: background-color 0.1s, color 0.1s;
+      transition: background-color 0.15s ease, color 0.15s ease;
     }
 
     .theme-transition {
-      transition: background-color 0.1s, border-color 0.1s, color 0.1s, box-shadow 0.1s;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     }
   </style>
 </head>
 
-<body class="bg-zinc-50 dark:bg-zinc-900 min-h-screen flex flex-col theme-transition">
-  <header class="bg-white dark:bg-zinc-800 shadow-md p-4 flex items-center justify-between theme-transition">
+<body class="bg-zinc-50 dark:bg-zinc-900 min-h-screen flex flex-col theme-transition text-zinc-800 dark:text-zinc-100">
+  <header class="bg-white dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 shadow-sm p-4 flex items-center justify-between theme-transition">
     <h1 class="text-2xl font-semibold text-zinc-800 dark:text-white flex items-center gap-2">
       <i class="fas fa-sticky-note text-royal-red-600"></i>
       Note Taking App
     </h1>
-    <div class="flex items-center gap-4">
-      <button id="downloadAllBtn" class="text-white bg-royal-red-600 hover:bg-royal-red-700 rounded-md px-3 py-1.5 flex items-center gap-2 transition-colors"
+    <div class="flex items-center gap-3">
+      <button id="downloadAllBtn" class="text-white bg-royal-red-600 hover:bg-royal-red-700 rounded-md px-3 py-1.5 flex items-center gap-2 transition-colors font-medium text-sm shadow-sm"
         aria-label="Download all notes">
         <i class="fas fa-download"></i> Download All
       </button>
-      <label class="text-white bg-royal-red-600 hover:bg-royal-red-700 rounded-md px-3 py-1.5 flex items-center gap-2 transition-colors cursor-pointer"
+      <label class="text-white bg-royal-red-600 hover:bg-royal-red-700 rounded-md px-3 py-1.5 flex items-center gap-2 transition-colors cursor-pointer font-medium text-sm shadow-sm"
         aria-label="Import notes">
         <i class="fas fa-upload"></i> Import
         <input type="file" id="importNotesBtn" accept=".txt" multiple class="hidden">
       </label>
-      <button id="themeToggle" class="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-700 theme-transition"
-        aria-label="Toggle theme">
-        <i id="themeIcon" class="fas fa-sun text-yellow-500 dark:text-yellow-300"></i>
+      <button id="themeToggle" class="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 theme-transition"
+        aria-label="Toggle Theme Mode" title="Toggle Theme (Light / Dark / Auto)">
+        <i id="themeIcon" class="fas fa-sun text-yellow-500 text-lg"></i>
       </button>
     </div>
   </header>
 
   <main class="flex-grow container mx-auto p-4 max-w-4xl flex flex-col md:flex-row gap-6">
     <!-- Notes List -->
-    <section class="md:w-1/3 bg-white dark:bg-zinc-800 rounded-lg shadow-md p-4 flex flex-col theme-transition">
+    <section class="md:w-1/3 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg shadow-sm p-4 flex flex-col theme-transition">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-semibold text-zinc-700 dark:text-zinc-200 theme-transition">Your Notes</h2>
         <button id="addNoteBtn"
-          class="text-white bg-royal-red-600 hover:bg-royal-red-700 focus:ring-2 focus:ring-royal-red-500 focus:ring-opacity-50 rounded-md px-3 py-1.5 flex items-center gap-2 transition-colors"
+          class="text-white bg-royal-red-600 hover:bg-royal-red-700 focus:ring-2 focus:ring-royal-red-500 focus:ring-opacity-50 rounded-md px-3 py-1.5 flex items-center gap-2 transition-colors text-sm font-medium shadow-sm"
           aria-label="Add new note">
           <i class="fas fa-plus"></i> New
         </button>
       </div>
       <div class="border-b border-zinc-200 dark:border-zinc-700 mb-3 theme-transition"></div>
-      <ul id="notesList" class="overflow-y-auto flex-grow space-y-2">
+      <ul id="notesList" class="overflow-y-auto flex-grow space-y-2 max-h-[65vh]">
         <!-- Notes will be appended here -->
       </ul>
     </section>
 
     <!-- Note Editor -->
-    <section class="md:w-2/3 bg-white dark:bg-zinc-800 rounded-lg shadow-md p-6 flex flex-col theme-transition">
+    <section class="md:w-2/3 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg shadow-sm p-6 flex flex-col theme-transition">
       <input type="text" id="noteTitle" placeholder="Note Title"
-        class="border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 rounded-md px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-royal-red-500 text-zinc-800 dark:text-white text-lg font-semibold theme-transition"
+        class="border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 rounded-md px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-royal-red-500 text-zinc-800 dark:text-white text-lg font-semibold theme-transition placeholder-zinc-400 dark:placeholder-zinc-500"
         aria-label="Note title" />
       <textarea id="noteContent" placeholder="Write your note here..."
-        class="border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 rounded-md px-4 py-3 flex-grow resize-none focus:outline-none focus:ring-2 focus:ring-royal-red-500 text-zinc-700 dark:text-zinc-200 theme-transition"
+        class="border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 rounded-md px-4 py-3 flex-grow resize-none focus:outline-none focus:ring-2 focus:ring-royal-red-500 text-zinc-800 dark:text-zinc-100 theme-transition placeholder-zinc-400 dark:placeholder-zinc-500 font-sans"
         rows="12" aria-label="Note content"></textarea>
       <div class="mt-4 flex justify-end gap-3">
         <button id="deleteNoteBtn"
-          class="bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 text-zinc-700 dark:text-zinc-200 rounded-md px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors theme-transition"
+          class="bg-zinc-200 dark:bg-zinc-700 text-zinc-400 dark:text-zinc-500 rounded-md px-4 py-2 opacity-50 cursor-not-allowed flex items-center gap-2 transition-colors theme-transition font-medium text-sm"
           disabled aria-label="Delete note">
           <i class="fas fa-trash-alt"></i> Delete
         </button>
         <button id="downloadNoteBtn"
-          class="bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 text-zinc-700 dark:text-zinc-200 rounded-md px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors theme-transition"
+          class="bg-zinc-200 dark:bg-zinc-700 text-zinc-400 dark:text-zinc-500 rounded-md px-4 py-2 opacity-50 cursor-not-allowed flex items-center gap-2 transition-colors theme-transition font-medium text-sm"
           disabled aria-label="Download note">
           <i class="fas fa-download"></i> Download
         </button>
         <button id="saveNoteBtn"
-          class="bg-royal-red-600 hover:bg-royal-red-700 text-white rounded-md px-4 py-2 flex items-center gap-2 transition-colors focus:ring-2 focus:ring-royal-red-500 focus:ring-opacity-50"
+          class="bg-royal-red-600 hover:bg-royal-red-700 text-white rounded-md px-4 py-2 flex items-center gap-2 transition-colors focus:ring-2 focus:ring-royal-red-500 focus:ring-opacity-50 font-medium text-sm shadow-sm"
           aria-label="Save note">
           <i class="fas fa-save"></i> Save
         </button>
@@ -181,7 +200,7 @@
   </main>
 
   <footer
-    class="bg-white dark:bg-zinc-800 shadow-md p-6 text-center text-zinc-500 dark:text-zinc-400 text-sm theme-transition flex flex-col items-center gap-3">
+    class="bg-white dark:bg-zinc-800 border-t border-zinc-200 dark:border-zinc-700 shadow-sm p-6 text-center text-zinc-500 dark:text-zinc-400 text-sm theme-transition flex flex-col items-center gap-3">
     
     <!-- Creator Support / Sponsorship -->
     <div class="flex items-center justify-center gap-3 flex-wrap my-1">
@@ -240,47 +259,74 @@
     let selectedNoteId = null;
     let currentTheme = 'system'; // 'light', 'dark', or 'system'
 
-    // Theme Management
-    function setTheme(theme) {
-      currentTheme = theme;
-      localStorage.setItem('theme', theme);
+    // Theme Management Engine
+    function applyTheme(themeName) {
+      currentTheme = themeName;
+      localStorage.setItem('theme', themeName);
 
-      const isDark = theme === 'dark' ||
-        (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const shouldBeDark = themeName === 'dark' || (themeName === 'system' && prefersDark);
 
-      if (isDark) {
+      if (shouldBeDark) {
         document.documentElement.classList.add('dark');
-        themeIcon.className = 'fas fa-moon text-blue-300';
+        themeIcon.className = 'fas fa-moon text-yellow-300 text-lg';
+        themeToggle.title = themeName === 'system' ? 'Theme: Auto (Dark Mode Active)' : 'Theme: Dark Mode';
       } else {
         document.documentElement.classList.remove('dark');
-        themeIcon.className = 'fas fa-sun text-yellow-500';
+        themeIcon.className = 'fas fa-sun text-yellow-500 text-lg';
+        themeToggle.title = themeName === 'system' ? 'Theme: Auto (Light Mode Active)' : 'Theme: Light Mode';
       }
     }
 
     function initTheme() {
       const savedTheme = localStorage.getItem('theme') || 'system';
-      setTheme(savedTheme);
+      applyTheme(savedTheme);
     }
 
     function toggleTheme() {
-      if (currentTheme === 'light') {
-        setTheme('dark');
+      // Cycle: System -> Dark -> Light -> System
+      if (currentTheme === 'system') {
+        const isDarkNow = document.documentElement.classList.contains('dark');
+        applyTheme(isDarkNow ? 'light' : 'dark');
+        showNotification(isDarkNow ? 'Switched to Light Mode' : 'Switched to Dark Mode');
       } else if (currentTheme === 'dark') {
-        setTheme('system');
+        applyTheme('light');
+        showNotification('Switched to Light Mode');
       } else {
-        setTheme('light');
+        applyTheme('system');
+        showNotification('Switched to Auto (System Theme)');
       }
     }
 
-    // Notification function
+    // Dynamic System Theme Change Listener
+    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemThemeUpdate = () => {
+      if (currentTheme === 'system') {
+        applyTheme('system');
+      }
+    };
+    if (colorSchemeQuery.addEventListener) {
+      colorSchemeQuery.addEventListener('change', handleSystemThemeUpdate);
+    } else if (colorSchemeQuery.addListener) {
+      colorSchemeQuery.addListener(handleSystemThemeUpdate);
+    }
+
+    // Notification toast
     function showNotification(message) {
+      const existing = document.getElementById('app-notification');
+      if (existing) existing.remove();
+
       const notification = document.createElement('div');
-      notification.className = 'fixed bottom-4 right-4 bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-800 rounded-md px-4 py-2 shadow-lg theme-transition';
+      notification.id = 'app-notification';
+      notification.className = 'fixed bottom-5 right-5 bg-zinc-800 dark:bg-zinc-100 text-white dark:text-zinc-900 border border-zinc-700 dark:border-zinc-300 rounded-lg px-4 py-2.5 shadow-xl text-sm font-medium z-50 transition-all duration-200';
       notification.textContent = message;
       document.body.appendChild(notification);
 
       setTimeout(() => {
-        notification.remove();
+        if (notification.parentNode) {
+          notification.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => notification.remove(), 250);
+        }
       }, 2000);
     }
 
@@ -290,11 +336,27 @@
     }
 
     function loadNotesFromStorage() {
-      const storedNotes = localStorage.getItem('notes');
-      if (storedNotes) {
-        notes = JSON.parse(storedNotes);
-      } else {
+      try {
+        const storedNotes = localStorage.getItem('notes');
+        notes = storedNotes ? JSON.parse(storedNotes) : [];
+      } catch (e) {
         notes = [];
+      }
+    }
+
+    function updateButtonStates(hasSelection) {
+      if (hasSelection) {
+        deleteNoteBtn.disabled = false;
+        deleteNoteBtn.className = 'bg-royal-red-100 dark:bg-royal-red-900/40 hover:bg-royal-red-200 dark:hover:bg-royal-red-900/70 text-royal-red-700 dark:text-royal-red-300 rounded-md px-4 py-2 flex items-center gap-2 transition-colors cursor-pointer font-medium text-sm';
+        
+        downloadNoteBtn.disabled = false;
+        downloadNoteBtn.className = 'bg-blue-100 dark:bg-blue-900/40 hover:bg-blue-200 dark:hover:bg-blue-900/70 text-blue-700 dark:text-blue-300 rounded-md px-4 py-2 flex items-center gap-2 transition-colors cursor-pointer font-medium text-sm';
+      } else {
+        deleteNoteBtn.disabled = true;
+        deleteNoteBtn.className = 'bg-zinc-200 dark:bg-zinc-700 text-zinc-400 dark:text-zinc-500 rounded-md px-4 py-2 opacity-50 cursor-not-allowed flex items-center gap-2 transition-colors font-medium text-sm';
+        
+        downloadNoteBtn.disabled = true;
+        downloadNoteBtn.className = 'bg-zinc-200 dark:bg-zinc-700 text-zinc-400 dark:text-zinc-500 rounded-md px-4 py-2 opacity-50 cursor-not-allowed flex items-center gap-2 transition-colors font-medium text-sm';
       }
     }
 
@@ -302,17 +364,18 @@
       notesList.innerHTML = '';
       if (notes.length === 0) {
         const emptyMsg = document.createElement('div');
-        emptyMsg.className = 'text-zinc-400 dark:text-zinc-500 text-center mt-8 flex flex-col items-center';
+        emptyMsg.className = 'text-zinc-400 dark:text-zinc-500 text-center py-8 flex flex-col items-center';
 
         const icon = document.createElement('i');
         icon.className = 'fas fa-sticky-note text-4xl mb-2 text-zinc-300 dark:text-zinc-600';
 
         const text = document.createElement('p');
+        text.className = 'font-medium';
         text.textContent = 'No notes yet';
 
         const subtext = document.createElement('p');
-        subtext.className = 'text-sm mt-1';
-        subtext.textContent = 'Click "New" to add one';
+        subtext.className = 'text-xs text-zinc-400 dark:text-zinc-500 mt-1';
+        subtext.textContent = 'Click "New" to start writing';
 
         emptyMsg.appendChild(icon);
         emptyMsg.appendChild(text);
@@ -324,27 +387,32 @@
 
       notes.forEach((note) => {
         const li = document.createElement('li');
+        const isSelected = note.id === selectedNoteId;
+        
         li.className =
-          'cursor-pointer p-3 rounded-md hover:bg-zinc-300 bg-zinc-100 dark:bg-zinc-700 dark:hover:bg-zinc-900 theme-transition ' +
-          (note.id === selectedNoteId ? 'bg-royal-red-50 dark:bg-royal-red-900 dark:bg-opacity-20 border-l-4 border-royal-red-600' : '');
+          'cursor-pointer p-3 rounded-md transition-all duration-150 border ' +
+          (isSelected
+            ? 'bg-royal-red-50 dark:bg-royal-red-950/40 border-royal-red-500/50 shadow-sm'
+            : 'bg-zinc-50 dark:bg-zinc-700/60 border-zinc-200 dark:border-zinc-700/80 hover:bg-zinc-100 dark:hover:bg-zinc-700');
+        
         li.setAttribute('tabindex', '0');
         li.setAttribute('role', 'button');
-        li.setAttribute('aria-pressed', note.id === selectedNoteId ? 'true' : 'false');
+        li.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
         li.dataset.id = note.id;
 
         const titleDiv = document.createElement('div');
-        titleDiv.className = 'font-medium text-zinc-800 dark:text-zinc-200 truncate theme-transition ' +
-          (note.id === selectedNoteId ? 'text-royal-red-700 dark:text-royal-red-400' : '');
+        titleDiv.className = 'font-semibold text-sm truncate ' +
+          (isSelected ? 'text-royal-red-700 dark:text-royal-red-400' : 'text-zinc-800 dark:text-zinc-200');
         titleDiv.textContent = note.title || 'Untitled Note';
 
         const contentPreview = document.createElement('div');
-        contentPreview.className = 'text-xs text-zinc-500 dark:text-zinc-400 mt-1 truncate theme-transition';
+        contentPreview.className = 'text-xs text-zinc-500 dark:text-zinc-400 mt-1 truncate';
         contentPreview.textContent = note.content || 'No content';
 
         const dateSpan = document.createElement('div');
-        dateSpan.className = 'text-xs text-zinc-400 dark:text-zinc-500 mt-2 theme-transition';
-        const date = new Date(note.updatedAt);
-        dateSpan.textContent = date.toLocaleDateString(undefined, {
+        dateSpan.className = 'text-[11px] text-zinc-400 dark:text-zinc-500 mt-2 flex items-center gap-1';
+        const date = new Date(note.updatedAt || Date.now());
+        dateSpan.innerHTML = '<i class="far fa-clock"></i> ' + date.toLocaleDateString(undefined, {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
@@ -374,16 +442,7 @@
       if (note) {
         noteTitle.value = note.title;
         noteContent.value = note.content;
-        deleteNoteBtn.disabled = false;
-        deleteNoteBtn.className = deleteNoteBtn.className.replace(
-          'bg-zinc-200 dark:bg-zinc-700',
-          'bg-royal-red-100 dark:bg-royal-red-900 dark:bg-opacity-20 text-royal-red-700 dark:text-royal-red-400'
-        );
-        downloadNoteBtn.disabled = false;
-        downloadNoteBtn.className = downloadNoteBtn.className.replace(
-          'bg-zinc-200 dark:bg-zinc-700',
-          'bg-blue-100 dark:bg-blue-900 dark:bg-opacity-20 text-blue-700 dark:text-blue-400'
-        );
+        updateButtonStates(true);
       }
       renderNotesList();
     }
@@ -392,16 +451,7 @@
       selectedNoteId = null;
       noteTitle.value = '';
       noteContent.value = '';
-      deleteNoteBtn.disabled = true;
-      deleteNoteBtn.className = deleteNoteBtn.className.replace(
-        'bg-royal-red-100 dark:bg-royal-red-900 dark:bg-opacity-20 text-royal-red-700 dark:text-royal-red-400',
-        'bg-zinc-200 dark:bg-zinc-700'
-      );
-      downloadNoteBtn.disabled = true;
-      downloadNoteBtn.className = downloadNoteBtn.className.replace(
-        'bg-blue-100 dark:bg-blue-900 dark:bg-opacity-20 text-blue-700 dark:text-blue-400',
-        'bg-zinc-200 dark:bg-zinc-700'
-      );
+      updateButtonStates(false);
       renderNotesList();
     }
 
@@ -434,6 +484,7 @@
         selectedNoteId = newNote.id;
       }
       saveNotesToStorage();
+      updateButtonStates(true);
       renderNotesList();
       showNotification('Note saved successfully!');
     }
@@ -441,30 +492,29 @@
     function handleDeleteNote() {
       if (!selectedNoteId) return;
 
-      // Create a modal for confirmation
       const modal = document.createElement('div');
-      modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+      modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50';
 
       const modalContent = document.createElement('div');
-      modalContent.className = 'bg-white dark:bg-zinc-800 rounded-lg shadow-xl p-6 max-w-md mx-4 theme-transition';
+      modalContent.className = 'bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg shadow-2xl p-6 max-w-md mx-4 theme-transition';
 
       const modalTitle = document.createElement('h3');
-      modalTitle.className = 'text-lg font-semibold text-zinc-800 dark:text-white mb-3 theme-transition';
+      modalTitle.className = 'text-lg font-semibold text-zinc-900 dark:text-white mb-2';
       modalTitle.textContent = 'Delete Note';
 
       const modalText = document.createElement('p');
-      modalText.className = 'text-zinc-600 dark:text-zinc-300 mb-6 theme-transition';
+      modalText.className = 'text-sm text-zinc-600 dark:text-zinc-300 mb-6';
       modalText.textContent = 'Are you sure you want to delete this note? This action cannot be undone.';
 
       const buttonContainer = document.createElement('div');
       buttonContainer.className = 'flex justify-end gap-3';
 
       const cancelBtn = document.createElement('button');
-      cancelBtn.className = 'px-4 py-2 bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-white rounded-md hover:bg-zinc-300 dark:hover:bg-zinc-600 theme-transition';
+      cancelBtn.className = 'px-4 py-2 bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-600 transition-colors text-sm font-medium';
       cancelBtn.textContent = 'Cancel';
 
       const confirmBtn = document.createElement('button');
-      confirmBtn.className = 'px-4 py-2 bg-royal-red-600 text-white rounded-md hover:bg-royal-red-700';
+      confirmBtn.className = 'px-4 py-2 bg-royal-red-600 text-white rounded-md hover:bg-royal-red-700 transition-colors text-sm font-medium shadow-sm';
       confirmBtn.textContent = 'Delete';
 
       buttonContainer.appendChild(cancelBtn);
@@ -499,7 +549,6 @@
     saveNoteBtn.addEventListener('click', handleSaveNote);
 
     noteContent.addEventListener('keydown', function (e) {
-      // Ctrl/Cmd + S to save
       if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         e.preventDefault();
         handleSaveNote();
@@ -507,7 +556,6 @@
     });
 
     noteTitle.addEventListener('keydown', function (e) {
-      // Ctrl/Cmd + S to save
       if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         e.preventDefault();
         handleSaveNote();
@@ -522,7 +570,7 @@
       if (!note) return;
 
       const title = note.title || 'Untitled Note';
-      const filename = ${title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note'}.txt;
+      const filename = (title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note') + '.txt';
       const blob = new Blob([note.content], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -545,7 +593,7 @@
 
       notes.forEach((note) => {
         const title = note.title || 'Untitled Note';
-        const filename = ${title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note'}.txt;
+        const filename = (title.replace(/[^a-zA-Z0-9\s]/g, '').trim() || 'Untitled Note') + '.txt';
         zip.file(filename, note.content);
       });
 
@@ -564,7 +612,7 @@
 
     importNotesBtn.addEventListener('change', function(e) {
       const files = e.target.files;
-      if (files.length === 0) return;
+      if (!files || files.length === 0) return;
 
       let importedCount = 0;
 
@@ -587,7 +635,7 @@
           if (importedCount === files.length) {
             saveNotesToStorage();
             renderNotesList();
-            showNotification(Imported  note(s)!);
+            showNotification('Imported ' + importedCount + ' note(s)!');
           }
         };
         reader.readAsText(file);
@@ -597,13 +645,6 @@
     });
 
     themeToggle.addEventListener('click', toggleTheme);
-
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (currentTheme === 'system') {
-        setTheme('system');
-      }
-    });
 
     // Initialize
     initTheme();
