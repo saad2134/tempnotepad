@@ -25,19 +25,19 @@
 
 ### 🔹 Option 2: Run Locally
 Open web/index.html directly in your browser or start a static server:
-`ash
+```bash
 # Python
 python -m http.server 8080 --directory web
 
 # Node.js
 npx serve web
-`
+```
 
 ---
 
 ## 📁 File Architecture
 
-`	ext
+```ext
 tempnotepad/
 ├── .github/
 │   ├── workflows/
@@ -52,7 +52,7 @@ tempnotepad/
 │   └── sitemap.xml       # XML sitemap
 ├── LICENSE               # License
 └── README.md             # Project documentation
-`
+```
 
 ---
 
